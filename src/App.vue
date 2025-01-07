@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onBeforeMount, type Ref, ref} from "vue";
+import {onBeforeMount, onMounted, onUnmounted, type Ref, ref} from "vue";
 import ToDoList from "@/ToDoList.vue";
 import ToDoAdder from "@/ToDoAdder.vue";
 
@@ -41,13 +41,27 @@ function deleteToDo(index:number) {
   localStorage.setItem("TODOS",JSON.stringify([]));
   localStorage.setItem("TODOS", JSON.stringify(todoliste.value));
 }
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === "Enter") {
+    setTimeout(()=> showPopup.value = true,1)
+
+  }
+}
+
+onMounted(() => {
+  window.addEventListener("keydown", handleKeydown);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("keydown", handleKeydown);
+});
 
 </script>
 
 <template>
   <div>
     <h1>ToDo App</h1>
-    <button @click="showPopup = true">neues To Do</button>
+    <button  @click="showPopup = true">neues To Do</button>
 
     <ToDoAdder
         v-if="showPopup"

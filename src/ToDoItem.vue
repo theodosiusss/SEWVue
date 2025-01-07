@@ -35,6 +35,7 @@ function deleteToDo(){
 </script>
 
 <template>
+
   <div id="Task">
     <div id="TaskInput">
       <div style="display: flex; justify-content: space-between">

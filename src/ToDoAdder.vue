@@ -1,29 +1,54 @@
 <script lang="ts">
-import {defineComponent, defineEmits, ref} from 'vue'
+import {defineComponent, watch, ref} from 'vue'
 
 export default defineComponent({
   name: "ToDoAdder",
   emits: ["close", "name"],
+
   data() {
     return {
       text: ""
     }
 
   },
+  watch: {
+    text(oldText,newText){
+      if(newText.length > 50 ){
+        alert("too many characters (max 50)")
+      }
+    }
+  },
+  mounted() {
+      if (this.$refs.focusMe) {
+        (this.$refs.focusMe as HTMLInputElement).focus();
+      }
+    document.addEventListener('keydown', this.handleEscapeKey);
+
+
+  },
   methods: {
+    handleEscapeKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        this.closePopup();
+      }
+    },
+
     closePopupAndSafe() {
-      this.$emit("close");
-      this.$emit("name", this.text);
+      setTimeout(()=>{   this.$emit("close");
+        this.$emit("name", this.text.substring(0,51));
+      },10)
 
 
     },
+
 
     closePopup() {
       this.$emit("close");
 
 
     }
-  }
+  },
+
 })
 
 
@@ -31,17 +56,17 @@ export default defineComponent({
 
 <template>
 
-  <div class="popup-overlay">
+  <div class="popup-overlay" >
     <div class="popup-content">
       <div style="display: flex;flex-direction: row ;justify-content: right; height: 20px">
         <button @click="closePopup" style="padding: 2px; margin: 0; justify-content: flex-end">x</button>
       </div>
       <h2>Neues To Do Erstellen</h2>
-      <form>
+      <form @submit.prevent="closePopupAndSafe" >
         <label for="textInput">Name: </label>
-        <input type="text" id="textInput" placeholder="Max Musterman" v-model="text">
+        <input ref="focusMe"  type="text" id="textInput" placeholder="Max Musterman" v-model="text">
       </form>
-      <button type="submit" @click="closePopupAndSafe">Abschicken&Schließen</button>
+      <button type="submit"  v-on:keyup.enter="(closePopupAndSafe)" @click="closePopupAndSafe">Abschicken&Schließen</button>
 
     </div>
   </div>
