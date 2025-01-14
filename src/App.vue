@@ -2,6 +2,9 @@
 import {onBeforeMount, onMounted, onUnmounted, type Ref, ref} from "vue";
 import ToDoList from "@/ToDoList.vue";
 import ToDoAdder from "@/ToDoAdder.vue";
+import AdderButton from "@/AdderButton.vue";
+
+
 
 const text = ref("")
 
@@ -59,9 +62,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div>
+  <div >
     <h1>ToDo App</h1>
-    <button  @click="showPopup = true">neues To Do</button>
+    <AdderButton name="hallo"  @click="showPopup = true">Neues ToDo</AdderButton>
+
 
     <ToDoAdder
         v-if="showPopup"

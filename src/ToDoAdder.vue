@@ -12,7 +12,7 @@ export default defineComponent({
 
   },
   watch: {
-    text(oldText,newText){
+    text(newText){
       if(newText.length > 50 ){
         alert("too many characters (max 50)")
       }

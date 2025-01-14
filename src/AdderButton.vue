@@ -1,23 +1,42 @@
-<script lang="ts">
-import { ref} from 'vue'
-const showPopup = ref(false);
-
-function openPopup() {
-  showPopup.value = true;
-}
-function closePopup() {
-  showPopup.value = false;
-}
-
-
-</script>
-
 <template>
-  <button >
-    <slot name="trigger" :open-popup="openPopup()"></slot>
+  <button name="hallo" @click="onClick">
+    <slot>Default Button Text</slot>
   </button>
 </template>
 
-<style scoped>
+<script>
+export default {
+  name: "AdderButton",
+  props: {
+    onClickHandler: {
+      type: Function,
+      default: null,
+    },
+  },
+  methods: {
+    onClick() {
+      if (this.onClickHandler) {
+        this.onClickHandler();
+      } else {
+        this.$emit("click");
+      }
+    },
+  },
+};
+</script>
 
+<style scoped>
+/* Hier können Sie die Stile für den Button anpassen */
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
 </style>
