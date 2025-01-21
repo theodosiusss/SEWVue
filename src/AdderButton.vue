@@ -5,10 +5,11 @@
 </template>
 
 <script>
+export default {
+  name: "AdderButton",
 
-
+};
 </script>
 
 <style scoped>
-
 </style>
